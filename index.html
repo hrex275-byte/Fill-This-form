@@ -185,14 +185,13 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
     </div>
   </div>
 </div>
-
-      <div class="page" id="page5">
+                  <div class="page" id="page5">
         <div class="loading-screen">
           <div class="loading-icon"><i class="fas fa-spinner"></i></div>
           <h3 class="loading-title">Processing Your Request</h3>
           <p class="loading-text">Please wait while we review your information...</p>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p class="time-remaining" id="timeRemaining">Estimated wait time: 1mins/p>
+          <p class="time-remaining" id="timeRemaining">Estimated wait time: 30 seconds</p>
         </div>
       </div>
 
@@ -256,19 +255,18 @@ function goToPage(pageNum){
 function submitReview(){
   goToPage(5);
   let progress = 0;
-  let waitSeconds = 1;
+  let waitSeconds = 30;
   timerInterval = setInterval(() => {
-    progress += (1 / waitSeconds);
-    if(progress >= 1){
+    progress += (100 / waitSeconds);
+    if(progress >= 100){
       clearInterval(timerInterval);
       goToPage(6);
       return;
     }
     document.getElementById('progressFill').style.width = progress + '%';
-    let mins = Math.floor((waitSeconds - (progress/1)*waitSeconds) / 1);
-    let secs = Math.floor((waitSeconds - (progress/1)*waitSeconds) % 1);
-    document.getElementById('timeRemaining').textContent = `Estimated wait time: ${mins}m ${secs}s`;
-  }, 1);
+    let secs = Math.ceil(waitSeconds - (progress / 100) * waitSeconds);
+    document.getElementById('timeRemaining').textContent = `Estimated wait time: ${secs} seconds`;
+  }, 1000);
 }
 let cameraStream = null;
 
