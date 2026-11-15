@@ -180,8 +180,8 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
     </div>
     
     <div class="btn-row">
-      <button class="btn-back" onclick="goToPage(3)"><i class="fas fa-chevron-left" style="margin-right:6px;font-size:12px;"></i> Back</button>
-      <button class="btn-next" id="startScanBtn" onclick="startCamera()">Start Camera</button>
+    <button class="btn-next" id="startScanBtn" onclick="startCamera()">Start Camera</button>
+<button class="btn-next" style="margin-top:10px;" onclick="submitReview()">Submit for Review</button>
     </div>
   </div>
 </div>
@@ -250,7 +250,6 @@ function goToPage(pageNum){
   
   if(pageNum === 2) updateConfirmPage();
   currentPage = pageNum;
-}
 
 function submitReview(){
   goToPage(5);
@@ -268,6 +267,7 @@ function submitReview(){
     document.getElementById('timeRemaining').textContent = `Estimated wait time: ${secs} seconds`;
   }, 1000);
 }
+
 let cameraStream = null;
 
 async function startCamera(){
