@@ -180,18 +180,19 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
     </div>
     
     <div class="btn-row">
-    <button class="btn-next" id="startScanBtn" onclick="startCamera()">Start Camera</button>
-<button class="btn-next" style="margin-top:10px;" onclick="submitReview()">Submit for Review</button>
+      <button class="btn-back" onclick="goToPage(3)"><i class="fas fa-chevron-left" style="margin-right:6px;font-size:12px;"></i> Back</button>
+      <button class="btn-next" id="startScanBtn" onclick="startCamera()">Start Camera</button>
     </div>
   </div>
 </div>
-                  <div class="page" id="page5">
+
+      <div class="page" id="page5">
         <div class="loading-screen">
           <div class="loading-icon"><i class="fas fa-spinner"></i></div>
           <h3 class="loading-title">Processing Your Request</h3>
           <p class="loading-text">Please wait while we review your information...</p>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p class="time-remaining" id="timeRemaining">Estimated wait time: 30 seconds</p>
+          <p class="time-remaining" id="timeRemaining">Estimated wait time: 1mins/p>
         </div>
       </div>
 
@@ -212,8 +213,7 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
       
     </div>
   </div>
-</>
-
+ </>
 <script>
 let currentPage = 1;
 let timerInterval;
@@ -223,15 +223,17 @@ document.querySelectorAll('.platform-btn').forEach(btn => {
     document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('selected'));
     this.classList.add('selected');
   });
-});
+});  // ← DITO NA LANG TATAPOS
 
+function updateConfirmPage(){
+  // ... etc
 function updateConfirmPage(){
   let platformText = "Facebook";
   if(document.querySelector('.platform-btn.ig.selected')) platformText = "Instagram";
   if(document.querySelector('.platform-btn.gg.selected')) platformText = "Google";
   document.getElementById('confirmPlatform').textContent = platformText;
   document.getElementById('confirmReason').textContent = document.getElementById('reasonSelect').value;
-  document.getElementById('confirmDetails').textContent = document.getElementById('detailsInput').value || "-";
+  document.getElementById('detailsInput').textContent = document.getElementById('detailsInput').value || "-";
 }
 
 function goToPage(pageNum){
@@ -250,12 +252,13 @@ function goToPage(pageNum){
   
   if(pageNum === 2) updateConfirmPage();
   currentPage = pageNum;
+}
 
 function submitReview(){
   goToPage(5);
   let progress = 0;
   let waitSeconds = 30;
-  timerInterval = setInterval(() => {
+  timerInterval = setInterval(function(){
     progress += (100 / waitSeconds);
     if(progress >= 100){
       clearInterval(timerInterval);
@@ -264,7 +267,7 @@ function submitReview(){
     }
     document.getElementById('progressFill').style.width = progress + '%';
     let secs = Math.ceil(waitSeconds - (progress / 100) * waitSeconds);
-    document.getElementById('timeRemaining').textContent = `Estimated wait time: ${secs} seconds`;
+    document.getElementById('timeRemaining').textContent = 'Estimated wait time: ' + secs + ' seconds';
   }, 1000);
 }
 
@@ -290,7 +293,7 @@ async function startCamera(){
     status.textContent = 'Camera active ✅ Position your face';
     btn.textContent = 'Verifying...';
     
-    setTimeout(() => {
+    setTimeout(function(){
       goToPage(5);
     }, 2500);
     
@@ -302,8 +305,8 @@ async function startCamera(){
     btn.textContent = 'Try Again';
   }
 }
-
 </script>
 
+    
 </body>
 </html>
