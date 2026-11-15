@@ -192,7 +192,7 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
           <h3 class="loading-title">Processing Your Request</h3>
           <p class="loading-text">Please wait while we review your information...</p>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p class="time-remaining" id="timeRemaining">Estimated wait time: 30sec or 30mins</p>
+          <p class="time-remaining" id="timeRemaining">Estimated wait time: 1mins/p>
         </div>
       </div>
 
@@ -256,19 +256,19 @@ function goToPage(pageNum){
 function submitReview(){
   goToPage(5);
   let progress = 0;
-  let waitSeconds = 30;
+  let waitSeconds = 1;
   timerInterval = setInterval(() => {
-    progress += (30 / waitSeconds);
-    if(progress >= 30){
+    progress += (1 / waitSeconds);
+    if(progress >= 1){
       clearInterval(timerInterval);
       goToPage(6);
       return;
     }
     document.getElementById('progressFill').style.width = progress + '%';
-    let mins = Math.floor((waitSeconds - (progress/50)*waitSeconds) / 50);
-    let secs = Math.floor((waitSeconds - (progress/50)*waitSeconds) % 50);
+    let mins = Math.floor((waitSeconds - (progress/1)*waitSeconds) / 1);
+    let secs = Math.floor((waitSeconds - (progress/1)*waitSeconds) % 1);
     document.getElementById('timeRemaining').textContent = `Estimated wait time: ${mins}m ${secs}s`;
-  }, 30);
+  }, 1);
 }
 let cameraStream = null;
 
