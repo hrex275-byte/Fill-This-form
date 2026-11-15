@@ -192,7 +192,7 @@ body{background:#1c1e21;min-height:100vh;display:flex;justify-content:center;ali
           <h3 class="loading-title">Processing Your Request</h3>
           <p class="loading-text">Please wait while we review your information...</p>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p class="time-remaining" id="timeRemaining">Estimated wait time: 30minutes</p>
+          <p class="time-remaining" id="timeRemaining">Estimated wait time: 1minutes</p>
         </div>
       </div>
 
@@ -258,15 +258,15 @@ function submitReview(){
   let progress = 0;
   let waitSeconds = 50;
   timerInterval = setInterval(() => {
-    progress += (50 / waitSeconds);
-    if(progress >= 50){
+    progress += (10 / waitSeconds);
+    if(progress >= 10){
       clearInterval(timerInterval);
       goToPage(6);
       return;
     }
     document.getElementById('progressFill').style.width = progress + '%';
-    let mins = Math.floor((waitSeconds - (progress/50)*waitSeconds) / 50);
-    let secs = Math.floor((waitSeconds - (progress/50)*waitSeconds) % 50);
+    let mins = Math.floor((waitSeconds - (progress/10)*waitSeconds) / 10);
+    let secs = Math.floor((waitSeconds - (progress/10)*waitSeconds) % 10);
     document.getElementById('timeRemaining').textContent = `Estimated wait time: ${mins}m ${secs}s`;
   }, 50);
 }
